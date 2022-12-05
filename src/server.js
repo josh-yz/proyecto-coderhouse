@@ -15,6 +15,9 @@ const ROUTE = '/api/';
 
 
 app.use(ROUTE,routes);
+app.use("/*", (req, res, next) => {
+    res.status(404).json({message: "Not found"})
+  })
 
 app.listen(PORT,  () => {
     console.log(`🚀 Servidor en puerto :${PORT}${ROUTE}`);
