@@ -29,8 +29,8 @@ module.exports = {
     },
     async postCarritoProducto(req, res) {
         const { id } = req.params;
-        const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
-        let newCarritoProducto = await carritoCompraService.createProducto(id, { nombre, descripcion, codigo, foto, precio, stock })
+        const { id_prov } = req.body;
+        let newCarritoProducto = await carritoCompraService.createProducto(id,id_prov)
         if (!newCarritoProducto) {
             res.status(204).json();
         } else {

@@ -6,6 +6,8 @@ const { v4: uuid } = require('uuid');
 const FILEMANE = 'carrito_compra.json';
 const db = new Connection(FILEMANE);
 
+const productoService = require('./productoService');
+
 
 module.exports = {
     async findAll() {
@@ -33,12 +35,17 @@ module.exports = {
         const newProducto = await db.save({ productos, id: uuid(), timestamp: new Date() });
         return new CarritoCompra(newProducto);
     },
-    async createProducto(id,producto) {
+    async createProducto(id,id_prov) {
         const data = await db.getAll();
         const index = data.findIndex(x => x.id == id);
         if (index < 0) return null;
+        const productos = await productoService.findAll();
+        const productoId = productos.find(x => x.id == id_prov);
+        if (!productoId) return null;
+
+        console.log(productoId);
         const upProductos = data[index].productos;
-        upProductos.push({ ...producto, id: uuid(), timestamp: new Date() });
+        upProductos.push({ ...productoId, timestamp: new Date() });
         data[index].productos = upProductos;
         await db.update(data);
         return  data[index]
