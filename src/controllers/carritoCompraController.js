@@ -1,4 +1,5 @@
-const carritoCompraService = require('./../services/carritoCompraService');
+//const carritoCompraService = require('../services/mongodb/carritoCompraService');
+const carritoCompraService = require('../services/firebase/carritoCompraService');
 
 module.exports = {
     async postCarrito(req, res) {

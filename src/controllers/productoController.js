@@ -1,12 +1,18 @@
-const productoService = require('./../services/productoService');
+//const productoService = require('../services/mongodb/productoService');
+const productoService = require('../services/firebase/productoService');
+
 
 module.exports = {
     async getProducto(req, res) {
+        //let productos = await productoService.findAll();
         let productos = await productoService.findAll();
-        if (!productos) {
+        if (productos.length == 0) {
             res.status(204).json();
         } else {
-            res.status(200).json({ data: productos });
+            res.status(200).json({ 
+                bd : req.headers.database, 
+                data: productos 
+            });
         }
     },
     async getProductoId(req, res) {

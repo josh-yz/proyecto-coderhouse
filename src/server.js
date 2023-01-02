@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const path = require('path')
+const mongodb = require('./database/mongodb-connect')
+
+
+const selectDatabase = require('./middlewares/selectDatabase');
 require('dotenv').config()
 
 app.use(express.json());
@@ -13,6 +17,9 @@ const PORT = process.env.PORT || 8080;
 const ROUTE = '/api/';
 
 
+// Seleccionar la base de datos especificada
+app.use(selectDatabase);
+
 
 app.use(ROUTE,routes);
 app.use("/*", (req, res, next) => {
@@ -20,5 +27,7 @@ app.use("/*", (req, res, next) => {
 })
 
 app.listen(PORT,  () => {
+    mongodb.dbConnection();
     console.log(`🚀 Servidor en puerto :${PORT}${ROUTE}`);
+    
 });
