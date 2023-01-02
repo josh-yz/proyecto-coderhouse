@@ -33,7 +33,7 @@ module.exports = {
         const isExists = await module.exports.findByPk(id);
         if(isExists){
             await db.collection(COLLECTION).doc(id).update(producto);
-            return new Producto(isExists);
+            return new Producto({...producto,id});
         }
         return null
     },

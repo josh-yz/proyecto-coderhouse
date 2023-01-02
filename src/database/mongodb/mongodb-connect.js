@@ -7,7 +7,7 @@ const dbConnection = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,        
         });
-        console.log('Base de datos (atlas) : \x1b[32m%s\x1b[0m', 'Online')
+        console.log('Base de datos (atlas)    : \x1b[32m%s\x1b[0m', 'Online')
         
     } catch (error) {
         throw new Error('Error a la hora de iniciar la base de datos');

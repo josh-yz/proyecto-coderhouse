@@ -6,9 +6,6 @@ const productoService = require('./productoService');
 
 
 
-
-
-
 module.exports = {
     async findAll() {
         let res = await db.collection(COLLECTION).get();

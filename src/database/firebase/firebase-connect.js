@@ -4,4 +4,8 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
-module.exports = db;
+setTimeout(() => { // ESTO SOLO ES PARA QUE SALGA EL LOG AL ULTIMO
+    console.log('Base de datos (firebase) : \x1b[32m%s\x1b[0m', 'Online') 
+}, 3);
+
+module.exports = db;    

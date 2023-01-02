@@ -1,14 +1,4 @@
-const { CarritoCompra } = require('../../models/carritoCompra');
-const { Producto } = require('../../models/producto');
-const { Connection } = require('../../database');
-const { v4: uuid } = require('uuid');
-
-const FILEMANE = 'carrito_compra.json';
-const db = new Connection(FILEMANE);
-
 const productoService = require('./productoService');
-
-
 const CarritoCompraModel = require('../../models/mongodb/carritoCompra');
 
 
