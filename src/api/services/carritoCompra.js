@@ -1,48 +1,33 @@
-const { CarritoCompra } = require('../../models/firebase/carritoCompra');
-const db = require('../../database/firebase/firebase-connect');
-const COLLECTION = 'CarritoCompra';
-
-const productoService = require('./productoService');
-
-
+const productoService = require('./producto');
+const { carritoCompraModel } = require('../models');
 
 module.exports = {
     async findAll() {
-        let res = await db.collection(COLLECTION).get();
-        const carritos = res.docs.map(x => {
-            return new CarritoCompra({...x.data(),id: x.id})
-        });
+        const carritos = await carritoCompraModel.find();
         return carritos;
     },
     async findByPk(id) {
         try {
-            const doc = await db.collection(COLLECTION).doc(id).get();
-            if(doc.data()){
-                return new CarritoCompra({
-                    ...doc.data(),
-                    id: doc.id
-                });
-            }
-            return null;
+            const carrito = await carritoCompraModel.findById(id);
+            return carrito
         } catch (error) {
             return null;
         }
     },
+
     async findByPkProductos(id) {
         try {
-            const isExists = await module.exports.findByPk(id);
-            if(isExists){
-                return isExists.productos;
-            }
-            return null;
+            const carrito = await carritoCompraModel.findById(id);
+            return carrito.productos;
         } catch (error) {
             return null;
         }
     },
+
     async create(producto) {
-        const data= { productos :producto,timestamp: new Date() };
-        let newCarrito = await db.collection(COLLECTION).add(data);
-        return new CarritoCompra({...data,id: newCarrito.id});
+        const newProducto = new CarritoCompraModel(producto);
+        await newProducto.save();
+        return newProducto
     },
     async createProducto(id, idProd) {
         const isExists = await module.exports.findByPk(id);
@@ -58,26 +43,19 @@ module.exports = {
                 } else {
                     productos.push({ id: idProd, nombre, descripcion, codigo, foto, precio, cantidad: 1 });
                 }
-                await db.collection(COLLECTION).doc(id).update({...isExists,productos});
-                return new CarritoCompra(isExists);
+                const upProducto = await carritoCompraModel.findByIdAndUpdate(id, { productos }, { new: true })
+                return upProducto;
             }
             return null;
         }
         return null;
     },
+
     async delete(id) {
         const isExists = await module.exports.findByPk(id);
-        if(isExists){
-            await db.collection(COLLECTION).doc(id).delete();
-            return new Producto(isExists);
-        }
-        return null
-    },
-    async delete(id) {
-        const isExists = await module.exports.findByPk(id);
-        if(isExists){
-            await db.collection(COLLECTION).doc(id).delete();
-            return new CarritoCompra(isExists);
+        if (isExists) {
+            const delCarritoCompra = await carritoCompraModel.findByIdAndDelete(id, { new: true });
+            return delCarritoCompra
         }
         return null
     },
@@ -90,8 +68,8 @@ module.exports = {
                 const indexProv = productos.findIndex(x => x.id == idProd);
                 if (indexProv < 0) return null;
                 productos.splice(indexProv, 1);
-                await db.collection(COLLECTION).doc(id).update({...isExists,productos});
-                return new CarritoCompra(isExists);
+                const upProducto = await carritoCompraModel.findByIdAndUpdate(id, { productos }, { new: true })
+                return upProducto;
             }
             return null;
         }
