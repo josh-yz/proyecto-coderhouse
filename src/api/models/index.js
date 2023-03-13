@@ -1,7 +1,8 @@
 const models = {
     usuarioModel : require('./usuario'),
     productoModel : require('./producto'),
-    carritoCompraModel : require('./carritoCompra'),
+    carritoModel : require('./carrito'),
+    ordenModel : require('./orden'),
 }
 
 module.exports = models;

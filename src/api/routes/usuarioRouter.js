@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
-
-const usuarioController = require('../controllers/usuarioController');
 const upload = require('../../core/middlewares/multer.config');
+const auth = require('../../core/middlewares/auth');
+const {
+  getUsuario,
+  postUsuario,
+  getUsuarioId,
+  putUsuario,
+  deleteUsuario
+} = require('../controllers/usuarioController');
 
 
-router.get('/',usuarioController.getUsuario); 
-router.get('/:id',usuarioController.getUsuarioId); 
-router.post('/',upload.single('photo'),usuarioController.postUsuario); 
-router.put('/:id',usuarioController.putUsuario); 
-router.delete('/:id',usuarioController.deleteUsuario); 
+router.get('/',auth,getUsuario); 
+router.get('/:id',getUsuarioId); 
+router.post('/',upload.single('photo'),postUsuario); 
+router.put('/:id',putUsuario); 
+router.delete('/:id',deleteUsuario); 
 
 module.exports = router;

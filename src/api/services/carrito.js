@@ -1,14 +1,14 @@
 const productoService = require('./producto');
-const { carritoCompraModel } = require('../models');
+const { carritoModel } = require('../models');
 
 module.exports = {
     async findAll() {
-        const carritos = await carritoCompraModel.find();
+        const carritos = await carritoModel.find();
         return carritos;
     },
     async findByPk(id) {
         try {
-            const carrito = await carritoCompraModel.findById(id);
+            const carrito = await carritoModel.findById(id);
             return carrito
         } catch (error) {
             return null;
@@ -17,7 +17,7 @@ module.exports = {
 
     async findByPkProductos(id) {
         try {
-            const carrito = await carritoCompraModel.findById(id);
+            const carrito = await carritoModel.findById(id);
             return carrito.productos;
         } catch (error) {
             return null;
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     async create(producto) {
-        const newProducto = new CarritoCompraModel(producto);
+        const newProducto = new carritoModel(producto);
         await newProducto.save();
         return newProducto
     },
@@ -43,7 +43,7 @@ module.exports = {
                 } else {
                     productos.push({ id: idProd, nombre, descripcion, codigo, foto, precio, cantidad: 1 });
                 }
-                const upProducto = await carritoCompraModel.findByIdAndUpdate(id, { productos }, { new: true })
+                const upProducto = await carritoModel.findByIdAndUpdate(id, { productos }, { new: true })
                 return upProducto;
             }
             return null;
@@ -54,7 +54,7 @@ module.exports = {
     async delete(id) {
         const isExists = await module.exports.findByPk(id);
         if (isExists) {
-            const delCarritoCompra = await carritoCompraModel.findByIdAndDelete(id, { new: true });
+            const delCarritoCompra = await carritoModel.findByIdAndDelete(id, { new: true });
             return delCarritoCompra
         }
         return null
@@ -68,7 +68,7 @@ module.exports = {
                 const indexProv = productos.findIndex(x => x.id == idProd);
                 if (indexProv < 0) return null;
                 productos.splice(indexProv, 1);
-                const upProducto = await carritoCompraModel.findByIdAndUpdate(id, { productos }, { new: true })
+                const upProducto = await carritoModel.findByIdAndUpdate(id, { productos }, { new: true })
                 return upProducto;
             }
             return null;

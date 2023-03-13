@@ -8,6 +8,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (user, done) => {
+    console.log('deserializeUser');
     const userb = await usuarioModel.findById(user.id);
     done(null, userb);
 })
@@ -20,13 +21,12 @@ passport.use('local-signin', new LocalStrategy({
     const user = await usuarioModel.findOne({
         email: email,
     });
-
     if (!user) {
-        return done(null, false, req.flash('signinMessage', 'El usuario no existe'))
+        return done("El usuario no existe",false )
     }
     if(!user.comparePassword(password)){
-        return done(null,false,req.flash('signinMessage', 'Error en el password'));
+        return done("Error en el password",false);
     }
-
+    user.password = ':)'
     done(null,user);
 }));

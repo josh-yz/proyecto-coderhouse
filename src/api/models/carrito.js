@@ -1,6 +1,6 @@
 const {Schema , model} = require('mongoose');
 
-const CarritoCompraShema = Schema({
+const CarritoShema = Schema({
     productos:[{
         id : {
             type : String,
@@ -34,4 +34,4 @@ const CarritoCompraShema = Schema({
 },{ timestamps: true });
 
 
-module.exports = model('CarritoCompra',CarritoCompraShema) 
+module.exports = model('Carrito',CarritoShema) 

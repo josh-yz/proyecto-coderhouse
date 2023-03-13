@@ -1,9 +1,9 @@
-const {carritoCompraService} = require('../services');
+const {carritoService} = require('../services');
 
 
 module.exports = {
     async postCarrito(req, res) {
-        let newCarrito = await carritoCompraService.create([])
+        let newCarrito = await carritoService.create([])
         if (!newCarrito) {
             res.status(204).json();
         } else {
@@ -14,7 +14,7 @@ module.exports = {
     },
     async deleteCarrito(req, res) {
         const { id } = req.params;
-        let carrito = await carritoCompraService.delete(id)
+        let carrito = await carritoService.delete(id)
         if (!carrito) {
             res.status(202).json({ msg: 'No existe la id' });
         } else {
@@ -26,7 +26,7 @@ module.exports = {
     },
     async getCarritoProductosId(req, res) {
         const { id } = req.params;
-        let productos = await carritoCompraService.findByPkProductos(id);
+        let productos = await carritoService.findByPkProductos(id);
         if (!productos) {
             res.status(204).json();
         } else {
@@ -38,7 +38,7 @@ module.exports = {
     async postCarritoProducto(req, res) {
         const { id } = req.params;
         const { id_prov } = req.body;
-        let newCarritoProducto = await carritoCompraService.createProducto(id,id_prov)
+        let newCarritoProducto = await carritoService.createProducto(id,id_prov)
         if (!newCarritoProducto) {
             res.status(204).json();
         } else {
@@ -49,7 +49,7 @@ module.exports = {
     },
     async deleteCarritoProducto(req, res) {
         const { id, id_prod } = req.params;
-        let carrito = await carritoCompraService.deleteProducto(id, id_prod)
+        let carrito = await carritoService.deleteProducto(id, id_prod)
         if (!carrito) {
             res.status(202).json({ msg: 'No existe la id' });
         } else {

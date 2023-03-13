@@ -1,6 +1,11 @@
 const { usuarioService } = require('../services');
+const { sendWhatsApp,sendSMS } = require('../../core/sender/twilio');
+
 
 const ValidationError = require('../../core/errors/validationError');
+
+
+
 module.exports = {
     async getUsuario(req, res) {
         let usuarios = await usuarioService.findAll();
